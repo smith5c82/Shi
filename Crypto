@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CryptoTrade - Buy, Sell & Trade Cryptocurrency</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#3B82F6',secondary:'#1F2937'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+</style>
+</head>
+<body class="bg-gray-900">
+<!-- Header -->
+<div id="authModal" class="fixed inset-0 bg-white z-50 flex flex-col p-4">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center space-x-2">
+<span>5:54</span>
+<i class="ri-play-line"></i>
+<i class="ri-play-line"></i>
+<i class="ri-play-line"></i>
+</div>
+<div class="flex items-center space-x-2"></div>
+</div>
+</div>
+<div class="mt-8">
+<h1 class="font-['Pacifico'] text-gray-300xl mb-8">INVEST IN YOUR ASSETS</h1>
+
+
+
+
+
+
+<h2 class="bg-black text-red-500 mb-12">officialy owned and managed by chima smith</h2>
+
+
+
+
+
+
+
+<h2 class="text-xl mb-6">Sign in to access your account</h2>
+<button id="googleAuthLogin" class="w-full border border-gray-300 rounded py-2 mb-4 flex items-center justify-center space-x-2">
+<i class="ri-google-fill"></i>
+<span>Continue with Google</span>
+</button>
+<div class="text-center my-4">or</div>
+<form id="loginForm" class="space-y-4">
+<input type="email" id="email" placeholder="Email address" class="w-full border border-gray-300 rounded p-2 mb-4">
+<input type="password" id="password" placeholder="Password" class="w-full border border-gray-300 rounded p-2 mb-4">
+<button type="submit" class="w-full border border-gray-300 rounded py-2">Continue with Email</button>
+</form>
+<div class="mt-6 flex items-center space-x-2 justify-center">
+<span>Don't have an account?</span>
+<button id="showSignup" class="border border-gray-300 rounded px-4 py-1">Sign up</button>
+</div>
+<div class="mt-auto flex justify-between items-center fixed bottom-0 left-0 right-0 p-4 bg-white border-t">
+<button><i class="ri-arrow-left-s-line text-2xl"></i></button>
+<button><i class="ri-arrow-right-s-line text-2xl"></i></button>
+<button><i class="ri-home-line text-2xl"></i></button>
+<button><i class="ri-settings-line text-2xl"></i></button>
+<button><i class="ri-time-line text-2xl"></i></button>
+<button><i class="ri-opera-line text-2xl text-red-500"></i></button>
+</div>
+</div>
+<!-- Sign Up Modal -->
+<div id="signupModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+<div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-8">
+<div class="text-center mb-8">
+<h2 class="font-['Pacifico'] text-3xl text-primary mb-2">logo</h2>
+<p class="text-gray-600">Create your account</p>
+</div>
+<div class="space-y-6">
+<!-- Google Sign Up -->
+<button id="googleAuthSignup" class="w-full flex items-center justify-center space-x-3 border border-gray-300 rounded-button px-6 py-3 hover:bg-gray-50 transition-colors">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-google-fill text-[#4285F4]"></i>
+</div>
+<span>Sign up with Google</span>
+</button>
+<!-- Divider -->
+<div class="relative">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-gray-200"></div>
+</div>
+<div class="relative flex justify-center text-sm">
+<span class="px-4 bg-white text-gray-500">or</span>
+</div>
+</div>
+<!-- Email Sign Up -->
+<form id="signupForm" class="space-y-4">
+<div>
+<input type="email" id="signupEmail" placeholder="Email address" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+</div>
+<div>
+<input type="password" id="signupPassword" placeholder="Create password" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+</div>
+<button type="submit" class="w-full bg-primary text-white py-3 rounded-button hover:bg-blue-600 transition-colors">Create Account</button>
+</form>
+<!-- Login Link -->
+<p class="text-center text-gray-600">
+Already have an account?
+<button id="showLogin" class="text-primary hover:text-blue-600">Log in</button>
+</p>
+</div>
+</div>
+</div>
+  <logintohomepagebeforeview></logintohomepagebeforeview>
+<!-- Verification Code Modal -->
+<div id="verificationModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+<div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-8">
+<div class="text-center mb-8">
+<h2 class="text-2xl font-bold text-gray-900 mb-2">Verify your email</h2>
+<p class="text-gray-600">We've sent a verification code to your email</p>
+</div>
+<div class="space-y-6">
+<div class="flex justify-center space-x-4">
+<input type="text" maxlength="1" class="w-12 h-12 text-center border rounded-lg text-xl" inputmode="numeric">
+<input type="text" maxlength="1" class="w-12 h-12 text-center border rounded-lg text-xl" inputmode="numeric">
+<input type="text" maxlength="1" class="w-12 h-12 text-center border rounded-lg text-xl" inputmode="numeric">
+<input type="text" maxlength="1" class="w-12 h-12 text-center border rounded-lg text-xl" inputmode="numeric">
+</div>
+<div class="text-center">
+<div id="verificationTimer" class="text-sm text-gray-500 mb-4">Code expires in: 5:00</div>
+<button id="resendCode" class="text-primary hover:text-blue-600 text-sm">Resend code</button>
+</div>
+</div>
+</div>
+</div>
+<header class="bg-gray-900 border-b border-gray-800 sticky top-0 z-40">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-16">
+<!-- Logo -->
+<div class="flex items-center space-x-8">
+<div class="font-['Pacifico'] text-2xl text-primary">logo</div>
+<!-- Primary Navigation -->
+<nav class="hidden md:flex items-center space-x-6">
+<a href="#" class="text-gray-300 hover:text-primary transition-colors font-medium">Assets</a>
+<a href="#" class="text-gray-300 hover:text-primary transition-colors font-medium">Trade</a>
+<a href="#" class="text-gray-300 hover:text-primary transition-colors font-medium">Pay</a>
+<a href="#" class="text-gray-300 hover:text-primary transition-colors font-medium">For You</a>
+</nav>
+</div>
+<!-- Secondary Navigation -->
+<div class="flex items-center space-x-6">
+<button class="flex items-center space-x-2 text-gray-700 hover:text-primary">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-search-line"></i>
+</div>
+<span class="font-medium">Search</span>
+</button>
+<button class="flex items-center space-x-2 text-gray-700 hover:text-primary">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-notification-line"></i>
+</div>
+<span class="font-medium">Notifications</span>
+</button>
+<button class="flex items-center space-x-2 text-gray-700 hover:text-primary">
+<div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+<i class="ri-user-line"></i>
+</div>
+</button>
+</div>
+<!-- User Actions -->
+<div class="flex items-center space-x-4">
+<button class="text-gray-700 hover:text-primary transition-colors whitespace-nowrap !rounded-button">Sign In</button>
+<button class="bg-primary text-white px-6 py-2 hover:bg-blue-600 transition-colors whitespace-nowrap !rounded-button">Sign Up</button>
+<div class="relative">
+<button class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-primary">
+<i class="ri-user-line"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="bg-gray-900 py-12">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Balance Overview -->
+<div class="mb-12">
+<h1 class="text-3xl font-bold text-gray-900 mb-6">Your balance</h1>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Total Balance -->
+<div class="bg-gray-800 border border-gray-700 rounded-xl p-6">
+<div class="flex items-center justify-between mb-4">
+<div class="text-gray-400">Total balance</div>
+<button class="text-primary hover:text-blue-600">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-eye-line"></i>
+</div>
+</button>
+</div>
+<div class="text-gray-300xl font-bold text-white">$12,345.67</div>
+<div class="text-sm text-green-600 mt-2">+$234.56 (1.94%)</div>
+</div>
+<!-- Quick Actions -->
+<div class="bg-gray-800 border border-gray-700 rounded-xl p-6">
+<div class="grid grid-cols-3 gap-4">
+<button class="flex flex-col items-center justify-center p-3 hover:bg-gray-50 rounded-lg">
+<div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-2">
+<i class="ri-arrow-right-up-line text-blue-600"></i>
+</div>
+<span class="text-sm text-gray-700">Send</span>
+</button>
+<button class="flex flex-col items-center justify-center p-3 hover:bg-gray-50 rounded-lg">
+<div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-2">
+<i class="ri-arrow-left-down-line text-green-600"></i>
+</div>
+<span class="text-sm text-gray-700">Receive</span>
+</button>
+<button class="flex flex-col items-center justify-center p-3 hover:bg-gray-50 rounded-lg">
+<div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mb-2">
+<i class="ri-exchange-line text-purple-600"></i>
+</div>
+<span class="text-sm text-gray-700">Convert</span>
+</button>
+</div>
+</div>
+<!-- Buy/Sell -->
+<div class="bg-gray-800 border border-gray-700 rounded-xl p-6">
+<div class="flex space-x-4">
+<button class="flex-1 bg-primary text-white py-3 font-medium hover:bg-blue-600 transition-colors whitespace-nowrap !rounded-button">Buy</button>
+<button class="flex-1 border border-gray-200 text-gray-700 py-3 font-medium hover:bg-gray-50 transition-colors whitespace-nowrap !rounded-button">Sell</button>
+</div>
+</div>
+</div>
+</div>
+<div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+<div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<!-- Left Content -->
+<div class="space-y-8">
+<h1 class="text-5xl font-bold text-gray-900 leading-tight">
+Trade Crypto with <span class="text-primary">Confidence</span>
+</h1>
+<p class="text-xl text-gray-600 leading-relaxed">
+Buy, sell, and trade over 100 cryptocurrencies with industry-leading security and lightning-fast execution.
+</p>
+<!-- Price Ticker -->
+<div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+<div class="grid grid-cols-3 gap-6">
+<div class="text-center">
+<div class="text-sm text-gray-500">Bitcoin</div>
+<div class="text-lg font-bold text-gray-900">$43,250.00</div>
+<div class="text-sm text-green-600">+2.34%</div>
+</div>
+<div class="text-center">
+<div class="text-sm text-gray-500">Ethereum</div>
+<div class="text-lg font-bold text-gray-900">$2,580.50</div>
+<div class="text-sm text-green-600">+1.87%</div>
+</div>
+<div class="text-center">
+<div class="text-sm text-gray-500">Solana</div>
+<div class="text-lg font-bold text-gray-900">$98.75</div>
+<div class="text-sm text-red-600">-0.95%</div>
+</div>
+</div>
+</div>
+<!-- CTA Buttons -->
+<div class="flex space-x-4">
+<button class="bg-primary text-white px-8 py-4 text-lg font-semibold hover:bg-blue-600 transition-colors whitespace-nowrap !rounded-button">
+Start Trading
+</button>
+<button class="border-2 border-primary text-primary px-8 py-4 text-lg font-semibold hover:bg-primary hover:text-white transition-colors whitespace-nowrap !rounded-button">
+Learn More
+</button>
+</div>
+</div>
+<!-- Right Chart -->
+<div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+<div id="heroChart" style="width: 100%; height: 300px;"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Trading Interface -->
+<section class="bg-gray-900 py-8 border-t border-gray-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Wallet Overview -->
+<div class="mb-8 bg-gray-800 rounded-xl shadow-lg p-6">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold text-white">Your Wallets</h2>
+<button class="flex items-center space-x-2 text-primary hover:text-blue-600">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-add-line"></i>
+</div>
+<span>Add New Wallet</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Bitcoin Wallet -->
+<div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-6 text-white">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">₿</div>
+<div>
+<div class="text-sm opacity-80">Bitcoin Wallet</div>
+<div class="font-bold">0.1234 BTC</div>
+</div>
+</div>
+<button class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30">
+<i class="ri-more-2-fill"></i>
+</button>
+</div>
+<div class="text-2xl font-bold mb-2">$5,341.23</div>
+<div class="flex items-center space-x-4 text-sm">
+<button class="bg-white/20 px-4 py-2 rounded-full hover:bg-white/30">Send</button>
+<button class="bg-white/20 px-4 py-2 rounded-full hover:bg-white/30">Receive</button>
+</div>
+</div>
+<!-- Ethereum Wallet -->
+<div class="bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl p-6 text-white">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">Ξ</div>
+<div>
+<div class="text-sm opacity-80">Ethereum Wallet</div>
+<div class="font-bold">2.5678 ETH</div>
+</div>
+</div>
+<button class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30">
+<i class="ri-more-2-fill"></i>
+</button>
+</div>
+<div class="text-2xl font-bold mb-2">$6,624.94</div>
+<div class="flex items-center space-x-4 text-sm">
+<button class="bg-white/20 px-4 py-2 rounded-full hover:bg-white/30">Send</button>
+<button class="bg-white/20 px-4 py-2 rounded-full hover:bg-white/30">Receive</button>
+</div>
+</div>
+<!-- USDC Wallet -->
+<div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">$</div>
+<div>
+<div class="text-sm opacity-80">USDC Wallet</div>
+<div class="font-bold">379.50 USDC</div>
+</div>
+</div>
+<button class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30">
+<i class="ri-more-2-fill"></i>
+</button>
+</div>
+<div class="text-2xl font-bold mb-2">$379.50</div>
+<div class="flex items-center space-x-4 text-sm">
+<button class="bg-white/20 px-4 py-2 rounded-full hover:bg-white/30">Send</button>
+<button class="bg-white/20 px-4 py-2 rounded-full hover:bg-white/30">Receive</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Transaction History -->
+<div class="mb-8 bg-gray-800 rounded-xl shadow-lg p-6">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold text-gray-900">Transaction History</h2>
+<div class="flex items-center space-x-4">
+<button class="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-filter-3-line"></i>
+</div>
+<span>Filter</span>
+</button>
+<button class="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-download-2-line"></i>
+</div>
+<span>Export</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead>
+<tr class="border-b border-gray-100">
+<th class="text-left py-4 px-4 text-sm font-medium text-gray-500">Type</th>
+<th class="text-left py-4 px-4 text-sm font-medium text-gray-500">Asset</th>
+<th class="text-right py-4 px-4 text-sm font-medium text-gray-500">Amount</th>
+<th class="text-right py-4 px-4 text-sm font-medium text-gray-500">Price</th>
+<th class="text-right py-4 px-4 text-sm font-medium text-gray-500">Total</th>
+<th class="text-right py-4 px-4 text-sm font-medium text-gray-500">Date</th>
+<th class="text-right py-4 px-4 text-sm font-medium text-gray-500">Status</th>
+</tr>
+</thead>
+<tbody>
+<!-- Buy Transaction -->
+<tr class="border-b border-gray-100 hover:bg-gray-50">
+<td class="py-4 px-4">
+<div class="inline-flex items-center space-x-2 text-green-600">
+<div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+<i class="ri-arrow-right-up-line"></i>
+</div>
+<span>Buy</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white">₿</div>
+<span>Bitcoin</span>
+</div>
+</td>
+<td class="py-4 px-4 text-right">0.0234 BTC</td>
+<td class="py-4 px-4 text-right">$43,250.00</td>
+<td class="py-4 px-4 text-right">$1,012.05</td>
+<td class="py-4 px-4 text-right">2024-08-06 14:30</td>
+<td class="py-4 px-4 text-right">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+Completed
+</span>
+</td>
+</tr>
+<!-- Sell Transaction -->
+<tr class="border-b border-gray-100 hover:bg-gray-50">
+<td class="py-4 px-4">
+<div class="inline-flex items-center space-x-2 text-red-600">
+<div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+<i class="ri-arrow-left-down-line"></i>
+</div>
+<span>Sell</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">Ξ</div>
+<span>Ethereum</span>
+</div>
+</td>
+<td class="py-4 px-4 text-right">1.5000 ETH</td>
+<td class="py-4 px-4 text-right">$2,580.50</td>
+<td class="py-4 px-4 text-right">$3,870.75</td>
+<td class="py-4 px-4 text-right">2024-08-06 12:15</td>
+<td class="py-4 px-4 text-right">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+Completed
+</span>
+</td>
+</tr>
+<!-- Pending Transaction -->
+<tr class="border-b border-gray-100 hover:bg-gray-50">
+<td class="py-4 px-4">
+<div class="inline-flex items-center space-x-2 text-green-600">
+<div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+<i class="ri-arrow-right-up-line"></i>
+</div>
+<span>Buy</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white">$</div>
+<span>USDC</span>
+</div>
+</td>
+<td class="py-4 px-4 text-right">500.00 USDC</td>
+<td class="py-4 px-4 text-right">$1.00</td>
+<td class="py-4 px-4 text-right">$500.00</td>
+<td class="py-4 px-4 text-right">2024-08-06 10:45</td>
+<td class="py-4 px-4 text-right">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+Pending
+</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Assets List -->
+<div class="mb-8">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold text-gray-900">Your assets</h2>
+<div class="flex items-center space-x-4">
+<button class="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-filter-3-line"></i>
+</div>
+<span>Filter</span>
+</button>
+<button class="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-search-line"></i>
+</div>
+<span>Search</span>
+</button>
+</div>
+</div>
+<!-- Assets Table -->
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead>
+<tr class="border-b border-gray-100">
+<t
